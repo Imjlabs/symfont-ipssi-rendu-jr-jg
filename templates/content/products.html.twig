@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		{% for product in products %}{% endfor %}
+	</section>
+{% endblock %}
