@@ -6,13 +6,15 @@
 {% block body %}
 	<section class="container products">
 		{% for product in products %}
-			<div class="product">
-				<h2>{{ product.title }}</h2>
-				<p>{{ product.description }}</p>
-				<p>{{ product.price }}
-					€</p>
-				{# <p>{{ product.updatedat|date("d/m/Y h:m") }}</p> #}
-			</div>
+			<a href="{{path ('app_product', {'id': product.id})}}">
+				<div class="product">
+					<h2>{{ product.title }}</h2>
+					<p>{{ product.description }}</p>
+					<p>{{ product.price }}
+						€</p>
+					{# <p>{{ product.updatedat|date("d/m/Y h:m") }}</p> #}
+				</div>
+			</a>
 		{% endfor %}
 	</section>
 {% endblock %}

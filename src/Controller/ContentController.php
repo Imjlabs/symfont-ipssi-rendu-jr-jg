@@ -30,4 +30,14 @@ class ContentController extends AbstractController
             'products' => $products
         ]);
     }
+
+    #[Route('/product', name: 'app_product')]
+    public function getProduct(ProductRepository $productRepository): Response
+    {
+        $products = $productRepository->findAll();
+
+        return $this->render('content/products.html.twig', [
+            'products' => $products
+        ]);
+    }
 }
