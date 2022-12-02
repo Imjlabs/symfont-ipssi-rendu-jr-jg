@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -75,4 +76,40 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('profile/{id}', name: 'app_user_profile', methods: ['GET', 'POST'])]
+    public function getProfile(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        if ($user->getId() == $this->getUser()->getId()) {
+            $profile = $user;
+            $userArticles = $user->getArticles()->toArray();
+
+            $form = $this->createForm(UserType::class, $user);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                // encode the plain password
+                $user->setPassword(
+                    $this->userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+    
+                $entityManager->persist($user);
+                $entityManager->flush();
+                
+                return $this->redirectToRoute('app_user_profile', ["id" => $user->getId()]);
+            }
+                    
+        return $this->render('user/profile.html.twig', [
+            'user' => $profile,
+            'articles' => $userArticles,
+            'form' => $form->createView()
+        ]);
+
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
+    }
+    
 }
