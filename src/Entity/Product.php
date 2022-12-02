@@ -40,6 +40,15 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?User $seller = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $stock = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -157,6 +166,42 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSeller(): ?User
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?User $seller): self
+    {
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): self
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
