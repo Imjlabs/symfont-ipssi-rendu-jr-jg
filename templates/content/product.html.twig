@@ -7,10 +7,15 @@
 	<section class="container">
 		<h1>{{ product.title }}</h2>
 		<p>{{ product.description }}</p>
-		<p>{{ product.price }}
+		<p>Prix :
+			{{ product.price }}
 			€</p>
-		<p>{{ product.category.name }}</p>
-		<p>{{ product.seller.firstname }}
+		<p>Stock :
+			{{ product.stock }}</p>
+		<p>Catégorie :
+			{{ product.category.name }}</p>
+		<p>Vendeur :
+			{{ product.seller.firstname }}
 			{{ product.seller.firstname }}</p>
 	</section>
 {% endblock %}

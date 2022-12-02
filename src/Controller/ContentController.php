@@ -26,7 +26,7 @@ class ContentController extends AbstractController
     #[Route('/products', name: 'app_products')]
     public function getProducts(ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findAll();
+        $products = $productRepository->findAllProducts();
 
         return $this->render('content/products.html.twig', [
             'products' => $products

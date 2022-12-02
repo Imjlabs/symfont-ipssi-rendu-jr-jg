@@ -6,15 +6,24 @@
 {% block body %}
 	<section class="container products">
 		{% for product in products %}
-			<a href="{{ path('app_product', {'id': product.id})}}">
+			<a
+				href="{{ path('app_product', {'id': product.id})}}">
+				{# {% if product.stock > 0 %} #}
 				<div class="product">
 					<h2>{{ product.title }}</h2>
 					<p>{{ product.description }}</p>
-					<p>{{ product.price }}
+					<p>Prix :
+						{{ product.price }}
 						€</p>
-					<p>{{ product.category.name }}</p>
-					<p>{{ product.seller.firstname }} {{ product.seller.firstname }}</p>
+					<p>Stock :
+						{{ product.stock }}</p>
+					<p>Catégorie :
+						{{ product.category.name }}</p>
+					<p>Vendeur :
+						{{ product.seller.firstname }}
+						{{ product.seller.firstname }}</p>
 				</div>
+				{# {% endif %} #}
 			</a>
 		{% endfor %}
 	</section>
