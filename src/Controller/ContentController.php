@@ -32,7 +32,7 @@ class ContentController extends AbstractController
         ]);
     }
 
-    #[Route('/ADMIN', name: 'app_amin')]
+    #[Route('/admin', name: 'app_amin')]
     public function indexAdmin(UserRepository $userRepository): Response
     {
         $user = $userRepository->findAll();
