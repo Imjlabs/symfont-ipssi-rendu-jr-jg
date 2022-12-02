@@ -4,7 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<section class="container">
-		{% for product in products %}{% endfor %}
+	<section class="container products">
+		{% for product in products %}
+			<div class="product">
+				<h2>{{ product.title }}</h2>
+				<p>{{ product.description }}</p>
+				<p>{{ product.price }}
+					€</p>
+				{# <p>{{ product.updatedat|date("d/m/Y h:m") }}</p> #}
+			</div>
+		{% endfor %}
 	</section>
 {% endblock %}

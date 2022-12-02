@@ -19,8 +19,7 @@ class ProductType extends AbstractType
             ->add('created_at')
             ->add('updated_at')
             ->add('carts')
-            ->add('category')
-        ;
+            ->add('category');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
