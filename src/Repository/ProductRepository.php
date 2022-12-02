@@ -39,6 +39,16 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByCreatedDate(int $limit): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        $queryBuilder->orderBy('a.created_at', 'DESC')
+            ->setMaxResults($limit);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

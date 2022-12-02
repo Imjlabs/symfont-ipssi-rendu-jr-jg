@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/')]
 class ContentController extends AbstractController
@@ -42,13 +43,11 @@ class ContentController extends AbstractController
         ]);
     }
 
-    #[Route('/product', name: 'app_product')]
-    public function getProduct(ProductRepository $productRepository): Response
+    #[Route('/product/{id}', name: 'app_product')]
+    public function getProduct(Product $product): Response
     {
-        $products = $productRepository->findAll();
-
-        return $this->render('content/products.html.twig', [
-            'products' => $products
+        return $this->render('content/product.html.twig', [
+            'product' => $product,
         ]);
     }
 }
