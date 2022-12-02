@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +29,16 @@ class ContentController extends AbstractController
 
         return $this->render('content/products.html.twig', [
             'products' => $products
+        ]);
+    }
+
+    #[Route('/ADMIN', name: 'app_amin')]
+    public function indexAdmin(UserRepository $userRepository): Response
+    {
+        $user = $userRepository->findAll();
+        dd($user);
+        return $this->render('admin/index.html.twig', [
+            'users' => $user
         ]);
     }
 
