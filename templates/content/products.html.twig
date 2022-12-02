@@ -6,7 +6,7 @@
 {% block body %}
 	<section class="container products">
 		{% for product in products %}
-			<a href="{{path ('app_product', {'id': product.id})}}">
+			<a href="{{ path('app_product', {'id': product.id})}}">
 				<div class="product">
 					<h2>{{ product.title }}</h2>
 					<p>{{ product.description }}</p>
