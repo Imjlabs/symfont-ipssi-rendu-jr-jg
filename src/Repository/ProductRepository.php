@@ -50,6 +50,26 @@ class ProductRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function findProductsWithFilters(int $minPrice, int $maxPrice, int $seller, int $category, string $order): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        $queryBuilder->Where('p.stock > 0');
+        $queryBuilder->andWhere('p.status = :status')
+            ->setParameter('status', 'active');
+        $queryBuilder->andWhere('p.price >= :minPrice')
+            ->setParameter('minPrice', $minPrice);
+        $queryBuilder->andWhere('p.price <= :maxPrice')
+            ->setParameter('maxPrice', $maxPrice);
+        $queryBuilder->andWhere('p.seller = :seller')
+            ->setParameter('seller', $seller);
+        $queryBuilder->andWhere('p.category = :category')
+            ->setParameter('category', $category);
+        $queryBuilder->orderBy('p.created_at', $order);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */

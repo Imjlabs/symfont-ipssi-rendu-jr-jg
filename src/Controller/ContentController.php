@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductFilterType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,22 +26,19 @@ class ContentController extends AbstractController
     }
 
     #[Route('/products', name: 'app_products')]
-    public function getProducts(ProductRepository $productRepository): Response
+    public function getProducts(Request $request, ProductRepository $productRepository): Response
     {
-        $products = $productRepository->findAllProducts();
+        $form = $this->createForm(ProductFilterType::class);
+
+        if (isset($_POST['product_filter']["minPrice"]) && isset($_POST['product_filter']["maxPrice"]) && isset($_POST['product_filter']["seller"]) && isset($_POST['product_filter']["category"]) && isset($_POST['product_filter']["order"])) {
+            $products = $productRepository->findProductsWithFilters($_POST['product_filter']['minPrice'], $_POST['product_filter']['maxPrice'], $_POST['product_filter']['seller'], $_POST['product_filter']['category'], $_POST['product_filter']['order']);
+        } else {
+            $products = $productRepository->findAllProducts();
+        }
 
         return $this->render('content/products.html.twig', [
-            'products' => $products
-        ]);
-    }
-
-    #[Route('/admin', name: 'app_amin')]
-    public function indexAdmin(UserRepository $userRepository): Response
-    {
-        $user = $userRepository->findAll();
-        dd($user);
-        return $this->render('admin/index.html.twig', [
-            'users' => $user
+            'form' => $form->createView(),
+            'products' => $products,
         ]);
     }
 
