@@ -70,6 +70,16 @@ class ProductRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function findOneById(int $id): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        $queryBuilder->Where('p.id = :id')
+            ->setParameter('id', $id);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+	<section class="container">
+		<table>
+			<thead>
+				<th>Produit</th>
+				<th>Quantité</th>
+			</thead>
+			<tbody>
+				{% for cartProduct in cart.cartProducts %}
+					<tr>
+						<td>{{ cartProduct.product.title }}</td>
+						<td>{{ cartProduct.productQuantity }}</td>
+						<td>{{ cartProduct.product.price * cartProduct.productQuantity }}</td>
+						<form action="{{ path('app_cart_add', {'id': cartProduct.product.id }) }}" method="post">
+							<td><input type="number" name="quantity"></td>
+							<td>
+								<button id="more">+</button>
+							</td>
+						</form>
+						<form action="{{ path('app_cart_less_quantity', {'id': cartProduct.product.id }) }}" method="post">
+							<td><input type="number" name="quantity"></td>
+							<td>
+								<button id="less">-</button>
+							</td>
+						</form>
+						<form action="{{ path('app_cart_remove_cartproduct', {'id': cartProduct.product.id }) }}" method="post">
+							<td>
+								<button id="remove">-</button>
+							</td>
+						</form>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<form action="{{ path('app_cart_validate') }}">
+			<button id="validate">Valider</button>
+		</form>
+		<form action="{{ path('app_cart_clear') }}">
+			<button id="clear">Vider le panier</button>
+		</form>
+	</section>
+{% endblock %}

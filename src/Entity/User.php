@@ -37,8 +37,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Cart $cart = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Cart::class)]
+    private Collection $carts;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class)]
     private Collection $articles;
@@ -50,6 +50,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->articles = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->carts = new ArrayCollection();
+        // $cart = new Cart();
+        // $cart->setStatus("notValidate");
+        // $this->addCart(new Cart());
     }
 
     public function getId(): ?int
@@ -151,24 +155,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname . " " . $this->lastname;
     }
 
-    public function getCart(): ?Cart
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
     {
-        return $this->cart;
+        return $this->carts;
     }
 
-    public function setCart(?Cart $cart): self
+    public function addCart(Cart $cart): self
     {
-        // unset the owning side of the relation if necessary
-        if ($cart === null && $this->cart !== null) {
-            $this->cart->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($cart !== null && $cart->getUser() !== $this) {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
             $cart->setUser($this);
         }
 
-        $this->cart = $cart;
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getUser() === $this) {
+                $cart->setUser(null);
+            }
+        }
 
         return $this;
     }

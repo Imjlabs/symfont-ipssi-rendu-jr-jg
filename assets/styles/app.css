@@ -19,3 +19,38 @@ a {
     color: #000;
     text-decoration: none;
 }
+
+th,
+td {
+    width: 200px;
+}
+
+#more,
+#less {
+    color: white;
+}
+
+#more {
+    background-color: blue;
+}
+
+#less {
+    background-color: red;
+}
+
+#remove {
+    background-color: yellow;
+}
+
+#validate {
+    background-color: blue;
+}
+
+#clear {
+    background-color: red;
+}
+
+#validate,
+#clear {
+    color: white;
+}

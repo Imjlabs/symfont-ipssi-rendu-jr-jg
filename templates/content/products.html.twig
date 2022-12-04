@@ -12,8 +12,8 @@
 		</div>
 		<div class="products">
 			{% for product in products %}
-				<a href="{{ path('app_product', {'id': product.id})}}">
-					<div class="product">
+				<div class="product">
+					<a href="{{ path('app_product', {'id': product.id})}}">
 						<h2>{{ product.title }}</h2>
 						<p>{{ product.description }}</p>
 						<p>Prix :
@@ -26,8 +26,14 @@
 						<p>Vendeur :
 							{{ product.seller.firstname }}
 							{{ product.seller.firstname }}</p>
-					</div>
-				</a>
+					</a>
+					{% if user != null %}
+						<form action="{{ path('app_cart_add', {'id': product.id}) }}" method="post">
+							<input type="number" name="quantity">
+							<button>+</button>
+						</form>
+					{% endif %}
+				</div>
 			{% endfor %}
 		</div>
 	</section>
