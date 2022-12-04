@@ -156,16 +156,14 @@ class ContentController extends AbstractController
     }
 
     #[Route('/cart/clear', name: 'app_cart_clear')]
-    public function clearCart(int $id, CartRepository $cartRepository): Response
+    public function clearCart(cartProductRepository $cartProductRepository): Response
     {
-        // $carts = $this->getUser()->getCarts();
-        // $cart = $carts[$carts->count() - 1];
-        // $cart->setStatus("validate");
-        // $cartRepository->save($cart, false);
-        // $newCart = new Cart();
-        // $newCart->setUser($this->getUser());
-        // $newCart->setStatus("notValidate");
-        // $cartRepository->save($newCart, true);
+        $carts = $this->getUser()->getCarts();
+        $cart = $carts[$carts->count() - 1];
+        $cartProducts = $cart->getCartProducts();
+        foreach ($cartProducts as $cartProduct) {
+            $cartProductRepository->remove($cartProduct, true);
+        }
 
         return $this->redirectToRoute('app_cart');
     }
